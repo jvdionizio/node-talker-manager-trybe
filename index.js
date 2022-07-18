@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs/promises');
+const handleToken = require('./util/handleToken');
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,6 +27,10 @@ app.get('/talker/:id', async (_req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
   res.status(HTTP_OK_STATUS).json(talker);
+});
+
+app.post('/login', async (_req, res) => {
+  res.status(HTTP_OK_STATUS).json({ token: handleToken() });
 });
 
 app.listen(PORT, () => {
