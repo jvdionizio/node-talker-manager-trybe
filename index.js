@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs/promises');
 const handleToken = require('./util/handleToken');
+const { emailValidation } = require('./middlewares/emailValidation');
+const { passwordValidation } = require('./middlewares/passwordValidation');
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,7 +31,7 @@ app.get('/talker/:id', async (_req, res) => {
   res.status(HTTP_OK_STATUS).json(talker);
 });
 
-app.post('/login', async (_req, res) => {
+app.post('/login', emailValidation, passwordValidation, (_req, res) => {
   res.status(HTTP_OK_STATUS).json({ token: handleToken() });
 });
 
