@@ -12,6 +12,7 @@ const { validateWatched } = require('./middlewares/validateWatched');
 const { validateRate } = require('./middlewares/validateTalkRate');
 const { createTalker } = require('./controllers/createTalker');
 const { editTalker } = require('./controllers/editTalker');
+const { deleteTalker } = require('./controllers/deleteTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -63,6 +64,12 @@ app.put(
   validateWatched,
   validateRate,
   editTalker,
+);
+
+app.delete(
+  '/talker/:id',
+  validateToken,
+  deleteTalker,
 );
 
 app.listen(PORT, () => {
