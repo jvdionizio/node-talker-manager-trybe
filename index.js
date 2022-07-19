@@ -4,6 +4,13 @@ const fs = require('fs/promises');
 const handleToken = require('./util/handleToken');
 const { emailValidation } = require('./middlewares/emailValidation');
 const { passwordValidation } = require('./middlewares/passwordValidation');
+const { validateToken } = require('./middlewares/validateToken');
+const { validateName } = require('./middlewares/validateName');
+const { validateAge } = require('./middlewares/validateAge');
+const { validateTalk } = require('./middlewares/validateTalk');
+const { validateWatched } = require('./middlewares/validateWatched');
+const { validateRate } = require('./middlewares/validateTalkRate');
+const { createTalker } = require('./controllers/createTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -34,6 +41,15 @@ app.get('/talker/:id', async (_req, res) => {
 app.post('/login', emailValidation, passwordValidation, (_req, res) => {
   res.status(HTTP_OK_STATUS).json({ token: handleToken() });
 });
+
+app.post('/talker',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatched,
+  validateRate,
+  createTalker);
 
 app.listen(PORT, () => {
   console.log('Online');
