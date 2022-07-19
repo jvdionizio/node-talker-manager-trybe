@@ -13,6 +13,7 @@ const { validateRate } = require('./middlewares/validateTalkRate');
 const { createTalker } = require('./controllers/createTalker');
 const { editTalker } = require('./controllers/editTalker');
 const { deleteTalker } = require('./controllers/deleteTalker');
+const { searchTalker } = require('./controllers/searchTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +25,8 @@ const PORT = '3000';
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
+
+app.get('/talker/search', validateToken, searchTalker);
 
 app.get('/talker', async (_req, res) => {
   const talkers = await fs.readFile('./talker.json', 'utf-8');
